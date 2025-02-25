@@ -5,7 +5,6 @@ library(ggplot2)
 df <- read.csv("data/diabetes.csv")
 print(df)
 
-
 # Statistics
 
 ## Check null or na values
@@ -50,6 +49,7 @@ ggplot(df, aes(x = factor(Outcome), y = Glucose, fill = factor(Outcome))) +
   scale_fill_manual(values = c("lightblue", "lightcoral")) +
   theme_minimal()
 
+## Boxplot of Age by Outcome
 ggplot(df, aes(x = factor(Outcome), y = Age, fill = factor(Outcome))) +
   geom_boxplot() +
   labs(title = "Boxplot of Age by Diabetes Outcome",
