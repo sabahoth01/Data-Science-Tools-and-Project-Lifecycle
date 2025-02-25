@@ -102,6 +102,7 @@ ggplot(df, aes(x = factor(Outcome))) +
        y = "Count") +
   theme_minimal()
 ```
+![unnamed-chunk-7-1](https://github.com/user-attachments/assets/57871132-2caa-4981-8b06-79e5db9e1d44)
 
 Этот график показывает количество людей с диабетом и без него, что позволяет визуально оценить распределение. Здесь мы видим, что в нашем наборе данных у многих людей нет диабета.Но эти два класса показывают некоторый дисбаланс в данных. Для дальнейших манипуляций необходимо обработать этот дисбаланс, чтобы избежать ошибочных результатов.
 
@@ -128,6 +129,7 @@ ggplot(df, aes(x = factor(Outcome), y = Age, fill = factor(Outcome))) +
   scale_fill_manual(values = c("lightblue", "lightcoral")) +
   theme_minimal()
 ```
+![unnamed-chunk-9-1](https://github.com/user-attachments/assets/f082d297-d59f-4e07-8392-6b4151041e8b)
 
 Этот график показывает распределение возраста пациентов в зависимости от наличия диабета.
 
@@ -141,6 +143,7 @@ ggplot(df, aes(x = BMI)) +
        y = "Frequency") +
   theme_minimal()
 ```
+![unnamed-chunk-10-1](https://github.com/user-attachments/assets/fcc3460f-7307-45ae-b851-9d4e3dbbe240)
 
 Гистограмма показывает распределение индекса массы тела (ИМТ) среди пациентов. Это позволяет увидеть, как много людей находятся в различных диапазонах ИМТ. Что касается нашего набора данных, то у большинства людей индекс массы тела от 30 до 37 (приблизительно)
 
@@ -155,6 +158,7 @@ ggplot(df, aes(x = BMI, y = Glucose, color = Outcome)) +
        y = "Glucose Level") +
   theme_minimal()
 ```
+![unnamed-chunk-11-1](https://github.com/user-attachments/assets/cac35642-176d-4a83-a991-f351be6e461f)
 
 Диаграмма рассеяния показывает взаимосвязь между ИМТ и уровнем глюкозы в крови. Цвет точек указывает на наличие диабета (1 = диабетик, 0 = не диабетик). Это позволяет визуально оценить, как ИМТ влияет на уровень глюкозы. Мы можем ясно видеть, что `наиболее высоким является индекс массы тела, уровень глюкозы также имеет тенденцию быть высоким`, что приводит к высокой вероятности развития диабета. Тот же результат можно наблюдать на следующем графике, используя соотношение между глюкозой и инсулином.
 
@@ -167,6 +171,7 @@ ggplot(df, aes(x = Insulin, y = Glucose, color = Outcome)) +
        y = "Glucose Level") +
   theme_minimal()
 ```
+![unnamed-chunk-12-1](https://github.com/user-attachments/assets/3ff0fc11-87e6-49ee-9f77-30f09644b53c)
 
 ## Pair plot of selected numeric variables
 
