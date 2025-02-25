@@ -129,7 +129,6 @@ ggplot(df, aes(x = factor(Outcome), y = Age, fill = factor(Outcome))) +
   scale_fill_manual(values = c("lightblue", "lightcoral")) +
   theme_minimal()
 ```
-![unnamed-chunk-9-1](https://github.com/user-attachments/assets/f082d297-d59f-4e07-8392-6b4151041e8b)
 
 Этот график показывает распределение возраста пациентов в зависимости от наличия диабета.
 
@@ -158,7 +157,6 @@ ggplot(df, aes(x = BMI, y = Glucose, color = Outcome)) +
        y = "Glucose Level") +
   theme_minimal()
 ```
-![unnamed-chunk-11-1](https://github.com/user-attachments/assets/cac35642-176d-4a83-a991-f351be6e461f)
 
 Диаграмма рассеяния показывает взаимосвязь между ИМТ и уровнем глюкозы в крови. Цвет точек указывает на наличие диабета (1 = диабетик, 0 = не диабетик). Это позволяет визуально оценить, как ИМТ влияет на уровень глюкозы. Мы можем ясно видеть, что `наиболее высоким является индекс массы тела, уровень глюкозы также имеет тенденцию быть высоким`, что приводит к высокой вероятности развития диабета. Тот же результат можно наблюдать на следующем графике, используя соотношение между глюкозой и инсулином.
 
@@ -171,7 +169,6 @@ ggplot(df, aes(x = Insulin, y = Glucose, color = Outcome)) +
        y = "Glucose Level") +
   theme_minimal()
 ```
-![unnamed-chunk-12-1](https://github.com/user-attachments/assets/3ff0fc11-87e6-49ee-9f77-30f09644b53c)
 
 ## Pair plot of selected numeric variables
 
