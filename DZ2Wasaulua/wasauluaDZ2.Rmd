@@ -1,0 +1,159 @@
+---
+title: "wasauluaDZ2"
+author: "Brunotte Wasaulue Tazi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+glass <- read.table("data/glass.data", fileEncoding="UTF-8", sep = ",")
+```
+
+**Исследовательский вопрос:** Какие физические или химические свойства могут служить определяющими для различных типов стекла?
+
+
+**Набор данных: ** чтобы ответить на исследовательский вопрос были проанализированы 214 экземпляров образцов стекла, определены их физико--химические свойства. 
+
+Каждый образец относится к одному из различных типов стекла:
+
+  1. Строительные окна (обработанный поплавок)
+  2. Строительные окна (необработанный поплавок)
+  3. Автомобильные стекла (обработанный поплавок)
+  4. Автомобильные стекла (необработанный поплавок)
+  5. Контейнеры
+  6. Посуда
+  7. Фары
+
+Измеряемыми атрибутами являются:
+
+  1. Показатель преломления (RI) - V2
+  2. Натрий (Na) - V3
+  3. Магний (Мг) - V4
+  4. Алюминий (Al) - V5
+  5. Кремний (если таковой имеется) - V6
+  6. Калий (K) - V7
+  7. Кальций (Ca) - V8
+  8. Барий (Ba) - V9
+  9. Железо (Fe) - V10
+  
+  Дополнительная информация о параметрах
+  
+  V1. Идентификационный номер: от 1 до 214
+  V2. RI: показатель преломления
+  V3. Na: натрий (единица измерения: массовая доля в соответствующем оксиде, согласно атрибутам 4-10)
+  V4. Mg: Магний
+  V5. Al: Алюминий
+  V6. Си: Кремний
+  V7. К: Калий
+  V8. Ка: Кальций
+  V9. Ба: Бария
+  V10. Фе: Утюг
+  V11. Тип стекла: атрибут (класса)
+       1 - building_windows_float_processed
+       2 - окна здания_ , которые не были обработаны на плаву
+       3 - окна транспортного средства, которые были обработаны на плаву
+       4 - окна для транспортных средств, которые не были обработаны (в этой базе данных их нет)
+       5 - контейнеров
+       6 - столовых приборов
+       7 - фар
+   
+## Загрузка данных, описание данных
+
+```{r echo=TRUE}
+
+#отразить первые несколько строк --- базовый синтаксис 
+head(glass) 
+
+#отразить первые несколько строк --- dplyr
+glimpse(glass)
+
+#названия переменных--столбцов
+colnames(glass)
+```
+Данные представляют собой уже приведенный к табличному виду набор наблюений. Одноко, предобработка требуется:
+
+  1. Преобразуйем идентификационное название в название химического элемента для лучшей идентификации и
+  2. удаляем ИД (столбец идентификатора)
+  
+```{r echo=TRUE}
+colnames(glass) <- c("ID", "RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "Type")
+
+glass <- glass %>% select(-ID)
+
+#отразить первые несколько строк --- базовый синтаксис 
+head(glass) 
+
+#отразить первые несколько строк --- dplyr
+glimpse(glass)
+
+#названия переменных--столбцов
+colnames(glass)
+
+```
+
+# Mean composition by glass type
+```{r}
+glass %>%
+  group_by(Type) %>%
+  summarise(across(where(is.numeric), mean)) %>%
+  pivot_longer(-Type, names_to = "Element", values_to = "Mean_Value") %>%
+  ggplot(aes(x = Element, y = Mean_Value, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Mean Chemical Composition by Glass Type") 
+``` 
+  
+Data Visualization
+Continuous Variables
+```{r}
+source("ggplot.R", print.eval = TRUE)
+```
+The histograms show the distributions of continuous variables. Notable findings:
+
+MPG distribution is right-skewed
+
+Displacement shows a bimodal pattern
+
+Weight appears normally distributed
+
+Categorical Variables
+The bar plots display counts for categorical variables. Key observations:
+
+Most cars have 4, 6, or 8 cylinders
+
+Automatic and manual transmissions are roughly equally represented
+
+3 gears is the most common configuration
+
+Hypothesis Testing
+``` {r}
+source("hypothesis_testing.R", print.eval = TRUE)
+```
+Key Findings:
+Transmission and MPG:
+
+Manual transmission cars have significantly higher MPG (p = r format.pval(t_test$p.value, digits = 3))
+
+Cylinders and Horsepower:
+
+Significant differences exist between cylinder groups (p = r format.pval(kruskal_test$p.value, digits = 3))
+
+Post-hoc tests show all pairwise comparisons are significant
+
+Correlations:
+
+Strong negative correlation between MPG and weight (r = r round(cor_test$estimate, 2), p < 0.001)
+
+Categorical Association:
+
+Transmission type depends on number of cylinders (χ² p = r format.pval(chi_test$p.value, digits = 3))
+
+Conclusion
+This analysis revealed several significant relationships in automobile characteristics. Manual transmission vehicles tend to be more fuel efficient, while engine power varies significantly by cylinder count.
